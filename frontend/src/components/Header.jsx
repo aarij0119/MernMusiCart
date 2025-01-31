@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { IoCartOutline } from "react-icons/io5";
 import Logo from '/images/Logo.png'
 import { CartContext } from '../context/Viewproduct';
+import { userContext } from '../context/UserProvider';
 
 const Header = () => {
     //Context
     const {Cart} = useContext(CartContext);
+    const{UserLogo} =  useContext(userContext);
     
     const [visible,setvisible] = useState(false);
     const visibleHandler = () => {
@@ -29,8 +31,8 @@ const Header = () => {
                         </div>
                     </Link>
                     <div className='relative'>
-                    <div className='border-[#2E0052] p-2 rounded-full border-2 hover:cursor-pointer' onClick={visibleHandler}>
-                        <h3 className='font-bold'>MA</h3>
+                    <div className='border-[#2E0052]  rounded-full border-2  hover:cursor-pointer' onClick={visibleHandler}>
+                        <h3 className='font-bold uppercase w-[2.5rem] h-[2.5rem] text-lg flex items-center justify-center'>{UserLogo.firstword}{UserLogo.lastname}</h3>
                     </div>
                     {
                         visible ? <div className='absolute mt-2 right-1 bg-[#c0c0c7] shadow-lg p-3 rounded-2xl'>

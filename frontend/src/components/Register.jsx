@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Logo from '/images/Logo.png'
 import Footer from './Footer';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useState } from 'react';
+import axios from 'axios';
+import { userContext } from '../context/UserProvider';
 
 
 const Register = () => {
+    const navigate = useNavigate()
+    const { setUserLogo } = useContext(userContext);
     const [password, showpassword] = useState(false);
     const [formdata, setformdata] = useState({
         username: '',
@@ -60,13 +64,33 @@ const Register = () => {
         return errors;
     }
 
-    const SubmitHandler = (e) => {
+    const SubmitHandler = async (e) => {
         e.preventDefault();
         const errors = validator();
         if (Object.keys(errors).length === 0) {
-            console.log("Submit")
-
+            console.log("Submit");
             console.log(formdata)
+            try {
+                const response = await axios.post('http://localhost:3000/login', formdata);
+                console.log("Response is", response);
+
+                const fullName = response.data.username;
+                const nameParts = fullName.split('');
+
+                const FirstWord = nameParts[0];         // AARIj // 5 - 1 // last word is j
+                const LastWord = nameParts.length > 1 ? nameParts[nameParts.length - 1] : FirstWord;
+                // console.log("First Word:", FirstWord);
+                // console.log("Last Word:", LastWord);
+                setUserLogo({
+                    firstword: FirstWord,
+                    lastname: LastWord
+                });
+
+                navigate('/home');
+
+            } catch (err) {
+                console.log("Something went wrong ", err.message)
+            }
             setformdata({
                 username: '',
                 mobile: '',

@@ -2,13 +2,15 @@ import express from 'express';
 const router = express.Router();
 import UserSchema from '../models/UserSchema.js'
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
+    console.log(req.body);
+    const{username,mobile,email,password} = req.body;
 try{
     const user =  await UserSchema.create({
-        username: "Riyaz",
-        mobileNumber: 7248202829,
-        emailId: 'aarijdev@gmail.com',
-        password: 'aarij@0119'
+        username,
+        mobileNumber:mobile,
+        emailId:email,
+        password
     });
     res.json(user)
 }catch(err){

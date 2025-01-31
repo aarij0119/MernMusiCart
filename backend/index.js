@@ -1,8 +1,16 @@
 import express from 'express';
 import LogIn from './Routes/Login.js';
 import MongooseConnect from './config/mongooseconnect.js';
+import cors from 'cors'
 const app = express();
+app.use(cors({
+    origin:'http://localhost:5173',
+    methods: 'POST,GET',
+
+}));
 MongooseConnect();
+
+app.use(express.json())
 
 app.use('/login', LogIn);
 
