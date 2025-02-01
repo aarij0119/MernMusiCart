@@ -1,19 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoCartOutline } from "react-icons/io5";
 import Logo from '/images/Logo.png'
 import { CartContext } from '../context/Viewproduct';
 import { userContext } from '../context/UserProvider';
+import axios from 'axios';
 
 const Header = () => {
+    const navigate = useNavigate()
     //Context
     const {Cart} = useContext(CartContext);
-    const{UserLogo} =  useContext(userContext);
+    const{UserLogo,Username} =  useContext(userContext);
     
     const [visible,setvisible] = useState(false);
     const visibleHandler = () => {
         setvisible((prev) => !prev)
     }
+    const logout = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/login/logout', { withCredentials: true });
+            console.log(response.data);
+            // Perform any additional actions after logout, e.g., redirect to login page
+            navigate('/login');
+        } catch (err) {
+            console.error("Logout error: ", err.response?.data?.message || err.message);
+        }
+    };
+    
     
     return (
         <div>
@@ -35,9 +48,9 @@ const Header = () => {
                         <h3 className='font-bold uppercase w-[2.5rem] h-[2.5rem] text-lg flex items-center justify-center'>{UserLogo.firstword}{UserLogo.lastname}</h3>
                     </div>
                     {
-                        visible ? <div className='absolute mt-2 right-1 bg-[#c0c0c7] shadow-lg p-3 rounded-2xl'>
-                        <h1 className='whitespace-nowrap mb-1'>Mohammad Aarij</h1>
-                        <h2 className='border-t-1 text-center'>Logout</h2>
+                        visible ? <div className='absolute mt-2 right-1 bg-[#c0c0c7] w-[10rem] shadow-lg p-3 rounded-2xl flex  flex-col'>
+                        <h1 className='whitespace-nowrap mb-1 text-center font-bold'>Name : {Username ? Username : 'Name'}</h1>
+                        <button className='bg-red-500 p-1.5 text-white rounded-md hover:cursor-pointer hover:bg-red-700' onClick={logout}>Logout</button>
                     </div> :null
                     }
                     </div>

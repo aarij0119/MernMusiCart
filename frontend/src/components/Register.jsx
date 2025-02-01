@@ -11,8 +11,10 @@ import { userContext } from '../context/UserProvider';
 
 const Register = () => {
     const navigate = useNavigate()
-    const { setUserLogo } = useContext(userContext);
+    const { setUserLogo,setusername } = useContext(userContext);
     const [password, showpassword] = useState(false);
+    const[apiError,setapiError] = useState('');
+    const[networkerror,setnetworkerror] = useState('');
     const [formdata, setformdata] = useState({
         username: '',
         mobile: '',
@@ -69,11 +71,15 @@ const Register = () => {
         const errors = validator();
         if (Object.keys(errors).length === 0) {
             console.log("Submit");
-            console.log(formdata)
             try {
-                const response = await axios.post('http://localhost:3000/login', formdata);
-                console.log("Response is", response);
-
+                const response = await axios.post('http://localhost:3000/register', formdata,{
+                    withCredentials: true
+                });
+                // console.log("Response is", response.data);
+                const username = response.data.username
+                const apiresponse = response.data
+                setusername(username)
+                setapiError(apiresponse)
                 const fullName = response.data.username;
                 const nameParts = fullName.split('');
 
@@ -89,6 +95,8 @@ const Register = () => {
                 navigate('/home');
 
             } catch (err) {
+                const error = err.message
+                setnetworkerror(error)
                 console.log("Something went wrong ", err.message)
             }
             setformdata({
@@ -158,9 +166,12 @@ const Register = () => {
                             By creating an account, you agree to receive automated security notifications via text message from Musicart. Message and data rates may apply.
                         </p>
                         <div>
-                            <button className="bg-[#2E0052] w-full cursor-pointer hover:bg-[#2f0052e4]  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                            <button className="bg-[#2E0052]  w-full cursor-pointer hover:bg-[#2f0052e4]  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                                 Continue
                             </button>
+                            <span className='text-red-600 font-bold mt-2 inline-block'>{apiError}</span><br />
+                            <span className='text-red-600 font-bold mt-2 inline-block'> {networkerror}</span>
+                           
                         </div>
                     </form>
                 </div>

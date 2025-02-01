@@ -3,14 +3,15 @@ import React, { createContext, useState } from 'react';
 const userContext = createContext();
 
 const UserProvider = ({children}) => {
-    const [Userdetail, setuserdetail] = useState({});
+    const [Username, setusername] = useState({});
+    // console.log("userdetails is these ",Username)
     const [UserLogo,setUserLogo] = useState({
         firstword: '',
         lastname: ''
     });
-    console.log(UserLogo)
+    // console.log(UserLogo)
     return (
-        <userContext.Provider value={{UserLogo,setUserLogo}}>
+        <userContext.Provider value={{UserLogo,setUserLogo,setusername,Username}}>
             {children}
         </userContext.Provider>
     );
