@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
             }
             if (result) {
                 const token = jwt.sign({ emailId: user.emailId, userId: user._id }, "Secretkey");
-                res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+                res.cookie('token', token);
                 // console.log("request is this ", req.body);
                 return res.json({ message: "User login successfully",user});
             } else {

@@ -4,6 +4,11 @@ import MongooseConnect from './config/mongooseconnect.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import Login from './Routes/Login.js';
+import Admin from './Routes/Admin.js'
+import dotenv from 'dotenv';
+dotenv.config();
+
+
 const app = express();
 app.use(cors({
     origin:'http://localhost:5173',
@@ -17,6 +22,7 @@ app.use(cookieParser());
 
 app.use('/register', Register);
 app.use('/login',Login);
+app.use('/admin',Admin)
 
 const server = app.listen(3000, (err) => {
     if (err) {
