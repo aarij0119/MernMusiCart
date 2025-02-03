@@ -1,28 +1,30 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Admin() {
+    const navigate = useNavigate();
     const [admindata, setadmindata] = useState({
-        name: '',
+        email: '',
         password: '',
     });
-    const [error,seterror] = useState({
-        nameerror:'',
-        passworderror:'',
+    const [error, seterror] = useState({
+        nameerror: '',
+        passworderror: '',
     });
 
     const HandleChange = (e) => {
         const { value, name } = e.target;
         setadmindata({
-            ...admindata, [name]:value
+            ...admindata, [name]: value
         });
     }
     const validator = () => {
         let error = {};
-        if(admindata.name === '' || null){
-            error.name = "Name can't be empty"
-        }else if(admindata.password === '' || null){
-            error.password = "Password can't be empty"
+        if (admindata.email === '' || null) {
+            error.email = "Email can't be empty";
+        } else if (admindata.password === '' || null) {
+            error.password = "Password can't be empty";
         }
         return error
     }
@@ -31,10 +33,15 @@ function Admin() {
         const errors = validator();
         if (Object.keys(errors).length === 0) {
             try {
-                const response = await axios.post('http://localhost:3000/admin/login', admindata, {
+                const response = await axios.post('http://localhost:3000/admin/adminlogin', admindata, {
                     withCredentials: true
                 });
                 console.log(response);
+                navigate('/admindashboard');
+                setadmindata({
+                    email: '',
+                    password: '',
+                })
             } catch (error) {
                 console.error('Error during the login request:', error);
             }
@@ -42,7 +49,7 @@ function Admin() {
             console.log(errors);
         }
     };
-    
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-900">
             <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-96">
@@ -55,15 +62,15 @@ function Admin() {
                 <form onSubmit={submitHandler}>
                     <div className="mb-4">
                         <label className="block text-gray-400 text-sm mb-2" htmlFor="username">
-                            Name
+                            Email
                         </label>
                         <input
                             className="w-full px-3 py-2 text-gray-900 bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                            type="text"
-                            id="username"
-                            name='name'
-                            placeholder="Enter your username"
-                            value={admindata.name}
+                            type="Email"
+                            id="Email"
+                            name='email'
+                            placeholder="Enter your Email"
+                            value={admindata.email}
                             onChange={HandleChange}
                         />
                     </div>
