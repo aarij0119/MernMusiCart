@@ -1,28 +1,29 @@
-import express from 'express'
-const router = express.Router();
+import express from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-
 dotenv.config();
 
-router.get('/', (req, res, next) => {
-    console.log('admin secretkey:', process.env.AdminSecretKey);
+const router = express.Router();
 
-    if (!req.cookies.token) {
+router.get('/', (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        console.log('Token not found in cookies');
         return res.status(401).send("You must log in first");
     }
 
     try {
-        const verifyAdmin = jwt.verify(req.cookies.token, process.env.AdminSecretKey);
+        const verifyAdmin = jwt.verify(token, process.env.AdminSecretKey);
         req.admin = verifyAdmin;
         console.log('Verified Admin:', verifyAdmin);
-        next();
+        res.status(200).json({ loggedIn: true });
     } catch (err) {
         console.error('Token verification failed:', err);
         return res.status(401).send("Invalid token. Please log in again.");
     }
-})
+    next()
+});
 
 
 export default router;

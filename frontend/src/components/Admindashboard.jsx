@@ -22,7 +22,7 @@ const Admindashboard = () => {
             <h1 className="text-xl font-bold">Welcome, Admin</h1>
           </header>
           <main className="flex">
-            <Outlet />
+          <Outlet />
           </main>
         </div>
       </div>

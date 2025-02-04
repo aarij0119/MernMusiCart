@@ -8,8 +8,7 @@ import Admin from './components/Admin';
 import Admindashboard from './components/Admindashboard';
 import AdminUser from './components/AdminUser';
 import Setting from './components/Setting';
-import Protective from './components/Protective';
-
+import Protected from './components/Protected';
 
 const App = () => {
     return (
@@ -21,15 +20,18 @@ const App = () => {
                     <Route path='/home' element={<Home />} />
                     <Route path='/viewCart' element={<ViewCart />} />
                     <Route path='/adminlogin' element={<Admin />} />
-                    <Route path='admindashboard' element={<Admindashboard />}>
-                        <Route path='users' element={<AdminUser />} />
-                        <Route path='setting' element={<Setting />} />
+                    <Route path='/' element={<Protected />} >
+                        {/* {console.log("Rendering Protected Route")} */}
+                        <Route path='admindashboard' element={<Admindashboard />}>
+                            <Route path='users' element={<AdminUser />} />
+                            <Route path='setting' element={<Setting />} />
+                        </Route>
                     </Route>
-                    <Route path='/protective' element={<Protective/>}/>
                 </Routes>
             </Router>
         </div>
     );
 };
+
 
 export default App;
