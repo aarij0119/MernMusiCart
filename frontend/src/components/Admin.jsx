@@ -41,14 +41,17 @@ function Admin() {
                 setadmindata({
                     email: '',
                     password: '',
-                })
+                });
             } catch (error) {
                 console.error('Error during the login request:', error);
+                // Display user-friendly error messages
             }
         } else {
             console.log(errors);
+            // Display validation errors to the user
         }
     };
+    
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-900">

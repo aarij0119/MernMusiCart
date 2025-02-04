@@ -1,28 +1,31 @@
 import express from 'express';
 import Register from './Routes/Register.js';
+import Login from './Routes/Login.js';
+import Admin from './Routes/Admin.js';
+import isAdminLoggedin from './middlewares/adminloggedin.js';
 import MongooseConnect from './config/mongooseconnect.js';
 import cookieParser from 'cookie-parser';
-import cors from 'cors'
-import Login from './Routes/Login.js';
-import Admin from './Routes/Admin.js'
+import cors from 'cors';
 import dotenv from 'dotenv';
-dotenv.config();
 
+dotenv.config();
 
 const app = express();
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin: 'http://localhost:5173',
     methods: 'POST,GET',
-    credentials:true
+    credentials: true
 }));
+
 MongooseConnect();
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use('/register', Register);
-app.use('/login',Login);
-app.use('/admin',Admin)
+app.use('/login', Login);
+app.use('/admin',Admin);
+app.use('/isadminloggedin', isAdminLoggedin);
 
 const server = app.listen(3000, (err) => {
     if (err) {

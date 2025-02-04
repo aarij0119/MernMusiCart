@@ -47,7 +47,7 @@ router.post('/adminlogin', async (req, res) => {
                 return res.status(401).send("Incorrect password");
             }
 
-            const token = jwt.sign({ admin_email: findadmin.AdminEmail, adminId: findadmin._id }, 'adminsecret');
+            const token = jwt.sign({ admin_email: findadmin.AdminEmail, adminId: findadmin._id }, process.env.AdminSecretKey);
             res.cookie('token', token, { httpOnly: true });
             return res.send('Admin login successfully');
 
@@ -66,6 +66,11 @@ router.get('/alluser', async (req, res) => {
     } catch (err) {
         res.send('Error got ', err.message);
     }
-})
+});
+
+
+
+
+
 
 export default router;
