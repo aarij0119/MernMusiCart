@@ -7,6 +7,9 @@ import MongooseConnect from './config/mongooseconnect.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from "url";
+
 
 dotenv.config();
 
@@ -19,8 +22,12 @@ app.use(cors({
 
 MongooseConnect();
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
+app.use(express.static(path.join(dirname,"public")));
 
 app.use('/register', Register);
 app.use('/login', Login);

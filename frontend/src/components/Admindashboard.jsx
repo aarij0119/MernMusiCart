@@ -7,14 +7,18 @@ const Admindashboard = () => {
         <div className="bg-blue-800 text-white w-1/5 flex flex-col">
           <div className="p-4 text-center font-bold text-2xl">Admin Dashboard</div>
           <ul className="mt-6">
-            <li className="p-4 hover:bg-blue-700 cursor-pointer">Dashboard</li>
+           <Link to='dashboard'>
+           <li className="p-4 hover:bg-blue-700 cursor-pointer">Dashboard</li>
+           </Link>
             <Link to="users">
               <li className="p-4 hover:bg-blue-700 cursor-pointer">Users</li>
             </Link>
             <Link to='setting'>
             <li className="p-4 hover:bg-blue-700 cursor-pointer">Settings</li>
             </Link>
+            <Link to={'logout'}>
             <li className="p-4 hover:bg-blue-700 cursor-pointer">Logout</li>
+            </Link>
           </ul>
         </div>
         <div className="flex-1 flex flex-col">

@@ -4,7 +4,7 @@ import { Outlet, Navigate } from 'react-router-dom';
 
 const Protected = () => {
     const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-    const [checked, setChecked] = useState(false); // New state to indicate the check is complete
+    const [checked, setChecked] = useState(false); 
 
     useEffect(() => {
         const fetch = async () => {
@@ -15,17 +15,13 @@ const Protected = () => {
             } catch (error) {
                 console.error('Error fetching admin login status:', error);
             } finally {
-                setChecked(true); // Indicate that the check is complete
+                setChecked(true); 
             }
         };
         fetch();
     }, []);
 
-    console.log("Rendering Protected Component. Initial isAdminLoggedIn:", isAdminLoggedIn);
-    console.log("Rendering Protected Component. Checked:", checked);
-
     if (!checked) {
-        // Render a placeholder while the check is being performed
         return <div>Loading...</div>;
     }
 

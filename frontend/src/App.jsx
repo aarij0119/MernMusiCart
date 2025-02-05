@@ -9,6 +9,8 @@ import Admindashboard from './components/Admindashboard';
 import AdminUser from './components/AdminUser';
 import Setting from './components/Setting';
 import Protected from './components/Protected';
+import AdminLogout from './components/AdminLogout';
+import AdminCreateCart from './components/AdminCreateCart';
 
 const App = () => {
     return (
@@ -23,8 +25,10 @@ const App = () => {
                     <Route path='/' element={<Protected />} >
                         {/* {console.log("Rendering Protected Route")} */}
                         <Route path='admindashboard' element={<Admindashboard />}>
+                            <Route path='dashboard' element={<AdminCreateCart/>}></Route>
                             <Route path='users' element={<AdminUser />} />
                             <Route path='setting' element={<Setting />} />
+                            <Route path='logout' element={<AdminLogout />}/>
                         </Route>
                     </Route>
                 </Routes>

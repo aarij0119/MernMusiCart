@@ -4,6 +4,10 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import AdminModel from '../models/AdminSchema.js';
 import UserModel from '../models/UserSchema.js';
+import multer from 'multer';
+// import crypto from 'crypto';
+// import path from 'path';
+import CartModel from '../models/CardSchema.js'
 
 // Route to create an admin
 router.get('/', async (req, res) => {
@@ -68,6 +72,59 @@ router.get('/alluser', async (req, res) => {
     }
 });
 
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, './public/images/uploads')
+//     },
+//     filename: function (req, file, cb) {
+//         crypto.randomBytes(10, function (err, bytes) {
+//             if (err) return cb(err);
+//             const fn = bytes.toString("hex") + path.extname(file.originalname);
+//             cb(null, fn);
+//         });
+//     }
+// });
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+router.post('/uploadproduct', upload.single('file'), async (req, res) => {
+    try {
+        const { itemname, price, description } = req.body;
+        console.log(req.file);
+        const cart = await CartModel.create({
+            Itemname: itemname,
+            ItemsPrice: price,
+            ItemDescription: description,
+            image:req.file.buffer
+        });
+
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded.' });
+        }
+
+        res.status(200).json({
+            message: 'File uploaded and product created successfully',
+        });
+
+    } catch (err) {
+        console.error('Error occurred:', err);
+        res.status(500).json({ error: 'An error occurred while processing your request.' });
+    }
+});
+
+router.get('/getproduct', async (req, res) => {
+    try {
+        const products = await CartModel.find();
+        const productsWithImage = products.map((product) => ({
+            ...product._doc,
+            image: product.image ? product.image.toString('base64') : null
+        }));
+        res.status(200).json(productsWithImage);
+    } catch (err) {
+        console.error('Error occurred:', err);
+        res.status(500).json({ error: 'An error occurred while retrieving the products.' });
+    }
+});
 
 
 
