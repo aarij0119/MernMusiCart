@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Logo from '/images/Logo.png'
 import Footer from './Footer';
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,12 +6,12 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useState } from 'react';
 import axios from 'axios';
-import { userContext } from '../context/UserProvider';
+import { userContext,  } from '../context/UserProvider';
 
 
 const Register = () => {
     const navigate = useNavigate()
-    const { setUserLogo,setusername } = useContext(userContext);
+    const { setUserLogo,setusername} = useContext(userContext);
     const [password, showpassword] = useState(false);
     const[apiError,setapiError] = useState('');
     const[networkerror,setnetworkerror] = useState('');
@@ -79,6 +79,8 @@ const Register = () => {
                 const username = response.data.username
                 const apiresponse = response.data
                 setusername(username)
+                localStorage.setItem('user', JSON.stringify({ username }));
+                    
                 setapiError(apiresponse)
                 const fullName = response.data.username;
                 const nameParts = fullName.split('');
@@ -91,7 +93,8 @@ const Register = () => {
                     firstword: FirstWord,
                     lastname: LastWord
                 });
-
+                localStorage.setItem('user', JSON.stringify({ username }));
+                localStorage.setItem('logo', JSON.stringify({ firstword: FirstWord, lastname: LastWord }));
                 navigate('/home');
 
             } catch (err) {
@@ -115,9 +118,9 @@ const Register = () => {
             seterror(errors);
 
         }
-
     }
     return (
+      
         <div className="bg-white">
             <div className="w-full max-w-md absolute top-1/2 left-1/2 tranform -translate-x-1/2 -translate-y-1/2 mb-4">
                 <div className="text-center mb-3">

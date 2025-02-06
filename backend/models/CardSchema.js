@@ -16,6 +16,9 @@ const CartSchema = mongoose.Schema({
     image: {
         type: Buffer,
     },
+    color:{
+        type:String
+    }
     
     
 });

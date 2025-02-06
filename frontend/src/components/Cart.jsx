@@ -23,7 +23,7 @@ const Cart = ({ items, forGrid, twoGrid }) => {
         <div>
           <h2 className={`${forGrid ? 'text-base' : twoGrid ? 'text-[1.8rem] mb-1' : ''}`}>{items.Itemname}</h2>
           <h2 className={`${forGrid ? 'text-base' : twoGrid ? 'text-[1.2rem] mb-2' : ''}`}>Price - ₹{items.ItemsPrice}</h2>
-          <h4 className={`${forGrid ? 'text-base' : twoGrid ? 'text-[1.2rem]' : ''}`}>Color | {items.ItemDescription}</h4>
+          <h4 className={`${forGrid ? 'text-base' : twoGrid ? 'text-[1.2rem]' : ''}`}>{items.color} | {items.ItemDescription}</h4>
         </div>
       </div>
     </section>

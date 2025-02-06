@@ -51,16 +51,18 @@ const Login = () => {
                 const response = await axios.post('http://localhost:3000/login', formdata, {
                     withCredentials: true
                 });
-                console.log(response.data);
-                const user = response.data.user.username
-                setusername(user)
-                const firstword = user[0];
-                const pattern = user.split('');
+                // console.log(response.data);
+                const username = response.data.user.username
+                setusername(username)
+                const firstword = username[0];
+                const pattern = username.split('');
                 const lastword = pattern.length > 0 ? pattern[pattern.length - 1] : firstword
                 setUserLogo({
                     firstword:firstword,
                     lastname: lastword
-                })
+                });
+                localStorage.setItem('user',JSON.stringify({username}));
+                localStorage.setItem('logo', JSON.stringify({ firstword: firstword, lastname: lastword }));
                 setfromdata({
                     email: '',
                     password: ''

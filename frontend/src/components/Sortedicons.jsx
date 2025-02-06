@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { PiSquaresFour } from "react-icons/pi";
 import { CiGrid2H } from "react-icons/ci";
-import Cart from './cart';
+import Cart from './Cart';
 import axios from 'axios';
 
 
@@ -11,6 +11,7 @@ const[product,setproduct] = useState([])
     const fetchdata = async () => {
      const response = await axios.get('http://localhost:3000/admin/getproduct');
      const data = response.data
+    //  console.log(data)
      setproduct(data)
     }
     fetchdata();
@@ -195,6 +196,7 @@ const[product,setproduct] = useState([])
             </div>
             <div className={`flex ${forGrid ? 'flex-row' : twoGrid ? 'flex-col' : ''} flex-wrap gap-4 mt-12`}>
             {product.map((items,idx)=>{
+                // console.log(items)
                return <Cart key={idx} items={items} forGrid={forGrid} twoGrid={twoGrid}/>
             })}
             </div>

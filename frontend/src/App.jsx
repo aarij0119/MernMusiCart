@@ -11,6 +11,7 @@ import Setting from './components/Setting';
 import Protected from './components/Protected';
 import AdminLogout from './components/AdminLogout';
 import AdminCreateCart from './components/AdminCreateCart';
+import Userprotected from './components/Userprotected';
 
 const App = () => {
     return (
@@ -19,8 +20,10 @@ const App = () => {
                 <Routes>
                     <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Register />} />
-                    <Route path='/home' element={<Home />} />
-                    <Route path='/viewCart' element={<ViewCart />} />
+                    <Route path='/' element={<Userprotected/>}>
+                    <Route path='home' element={<Home />} />
+                    <Route path='viewCart' element={<ViewCart />} />
+                    </Route>
                     <Route path='/adminlogin' element={<Admin />} />
                     <Route path='/' element={<Protected />} >
                         {/* {console.log("Rendering Protected Route")} */}

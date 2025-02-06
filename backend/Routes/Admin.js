@@ -89,15 +89,16 @@ const upload = multer({ storage: storage });
 
 router.post('/uploadproduct', upload.single('file'), async (req, res) => {
     try {
-        const { itemname, price, description } = req.body;
+        const { itemname, price, description,color } = req.body;
         console.log(req.file);
         const cart = await CartModel.create({
             Itemname: itemname,
             ItemsPrice: price,
             ItemDescription: description,
-            image:req.file.buffer
+            image:req.file.buffer,
+            color:color
         });
-
+        // console.log(cart)
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded.' });
         }

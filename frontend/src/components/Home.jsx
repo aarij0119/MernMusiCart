@@ -5,7 +5,7 @@ import Sortedicons from './Sortedicons'
 
 const Home = () => {
   return (
-    <div className='px-12 py-8'>
+    <div className='px-8 py-6 '>
         <Header />
         <HeaderBanner />
         <Sortedicons />

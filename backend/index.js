@@ -5,6 +5,7 @@ import Admin from './Routes/Admin.js';
 import isAdminLoggedin from './middlewares/adminloggedin.js';
 import MongooseConnect from './config/mongooseconnect.js';
 import cookieParser from 'cookie-parser';
+import IsUserLoggedin from './middlewares/isuserloggedin.js'
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -33,6 +34,7 @@ app.use('/register', Register);
 app.use('/login', Login);
 app.use('/admin',Admin);
 app.use('/isadminloggedin', isAdminLoggedin);
+app.use('/isuserloggedin', IsUserLoggedin);
 
 const server = app.listen(3000, (err) => {
     if (err) {

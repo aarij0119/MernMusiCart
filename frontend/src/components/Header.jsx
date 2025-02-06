@@ -19,7 +19,7 @@ const Header = () => {
     const logout = async () => {
         try {
             const response = await axios.get('http://localhost:3000/login/logout', { withCredentials: true });
-            console.log(response.data);
+            // console.log(response.data);
             // Perform any additional actions after logout, e.g., redirect to login page
             navigate('/login');
         } catch (err) {

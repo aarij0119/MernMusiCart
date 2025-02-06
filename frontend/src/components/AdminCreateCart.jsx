@@ -5,6 +5,7 @@ const AdminCreateCart = () => {
     const [formdata, setformdata] = useState({
         itemname: '',
         price: '',
+        color: '',
         description: '',
         file: null,
     });
@@ -24,6 +25,7 @@ const AdminCreateCart = () => {
                     itemname: '',
                     price: '',
                     description: '',
+                    color: '',
                     file: ' '
                 });
                 
@@ -61,7 +63,17 @@ const AdminCreateCart = () => {
                         value={formdata.itemname}
                         required />
                 </div>
-
+                <div class="mb-4">
+                    <label for="item-color" class="block text-gray-700">Item Color:</label>
+                    <input
+                        type="text"
+                        id="item-color"
+                        name="color"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                        onChange={Changehandler}
+                        value={formdata.color}
+                        required />
+                </div>
                 <div class="mb-4">
                     <label for="price" class="block text-gray-700">Price:</label>
                     <input
