@@ -1,47 +1,48 @@
 import React, { useContext, useState } from 'react';
-import Logo from '/images/Logo.png'
-import { data, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Logo from '/images/Logo.png';
 import Footer from './Footer';
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from 'axios';
 import { userContext } from '../context/UserProvider';
 
-const Login = () => {
-    const { setUserLogo, setusername } = useContext(userContext);
-    const navigate = useNavigate()
+const Login = ({ onLogin }) => {
+    const { setUserLogo, setusername, setUserId } = useContext(userContext);
+    const navigate = useNavigate();
     const [password, setshowpassword] = useState(false);
     const [error, seterror] = useState({});
     const [formdata, setfromdata] = useState({
         email: '',
         password: '',
-    })
-    const PasswordHandler = () => {
-        setshowpassword((prev) => !prev)
+    });
 
-    }
+    const PasswordHandler = () => {
+        setshowpassword((prev) => !prev);
+    };
+
     const Changehandler = (e) => {
         const { name, value } = e.target;
         setfromdata({
             ...formdata, [name]: value
-        })
-    }
+        });
+    };
 
     const validator = () => {
         let errors = {};
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
-        if (formdata.email == '' || null) {
-            errors.email = "Email can't be empty"
+        if (formdata.email === '' || null) {
+            errors.email = "Email can't be empty";
         } else if (!regex.test(formdata.email)) {
-            errors.email = "Not a valid email"
+            errors.email = "Not a valid email";
         } else if (formdata.password === '' || null) {
-            errors.password = "Password cant be empty";
+            errors.password = "Password can't be empty";
         } else if (!passwordRegex.test(formdata.password)) {
             errors.password = "Please include a number and alphabet and a secret key";
         }
-        return errors
-    }
+        return errors;
+    };
+
     const SubmitHandler = async (e) => {
         e.preventDefault();
         const errors = validator();
@@ -51,18 +52,24 @@ const Login = () => {
                 const response = await axios.post('http://localhost:3000/login', formdata, {
                     withCredentials: true
                 });
-                // console.log(response.data);
-                const username = response.data.user.username
-                setusername(username)
+                const { username, _id } = response.data.user;
+                console.log(_id);
+                setUserId(_id);
+                setusername(username);
                 const firstword = username[0];
                 const pattern = username.split('');
-                const lastword = pattern.length > 0 ? pattern[pattern.length - 1] : firstword
+                const lastword = pattern.length > 0 ? pattern[pattern.length - 1] : firstword;
                 setUserLogo({
-                    firstword:firstword,
+                    firstword: firstword,
                     lastname: lastword
                 });
-                localStorage.setItem('user',JSON.stringify({username}));
+                localStorage.setItem('user', JSON.stringify({ username }));
+                localStorage.setItem('userId', JSON.stringify({ _id }));
                 localStorage.setItem('logo', JSON.stringify({ firstword: firstword, lastname: lastword }));
+                
+                // Call the onLogin function to update currentUsername
+                onLogin(username);
+                
                 setfromdata({
                     email: '',
                     password: ''
@@ -75,8 +82,7 @@ const Login = () => {
                 navigate('/home');
 
             } catch (err) {
-                console.error("Login error: ",  err.message);
-                
+                console.error("Login error: ", err.message);
                 seterror({
                     email: '',
                     password: ''
@@ -85,11 +91,11 @@ const Login = () => {
         } else {
             seterror(errors);
         }
-    }
+    };
 
     return (
-        <div className="bg-white  min-h-screen">
-            <div className="w-full max-w-md absolute top-1/2 left-1/2 tranform -translate-x-1/2 -translate-y-1/2">
+        <div className="bg-white min-h-screen">
+            <div className="w-full max-w-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <div className="mb-4 flex items-center justify-center gap-2">
                     <img src={Logo} alt="Musicart Logo" className="w-[3rem]" />
                     <h1 className="text-3xl font-bold text-[#2E0052]">Musicart</h1>
@@ -114,7 +120,7 @@ const Login = () => {
                                 <button type='button' onClick={PasswordHandler} className='px-2.5'>{password ? < FaEye /> : <FaEyeSlash />}</button>
                             </div>
                         </div>
-                        <span className='text-red-600 font-bold  inline-block mt-2 mb-3'>{error.password}</span>
+                        <span className='text-red-600 font-bold inline-block mt-2 mb-3'>{error.password}</span>
                         <div>
                             <button className="bg-[#2E0052] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" type="submit">
                                 Continue
